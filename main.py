@@ -32,6 +32,10 @@ def get_credentials(): #A function to get the necessary credentials to run the A
     UnpywallCredentials(email)
     os.environ['UNPAYWALL_EMAIL'] = email
     #Adding the information for the SCOPUS API to the JSON configuration file
+    dic = {'apikey': "", 'insttoken': ""}
+    con_file = open("config.json", "w")
+    con_file.write(json.dumps(dic))
+    con_file.close()
     con_file = open("config.json", "r")
     config = json.load(con_file)
     con_file.close()
@@ -228,12 +232,13 @@ def populate_upload_df(scopus_df, unpaywall_df, authors_df): #This function crea
 def clean_files(upload_df):
     logging.shutdown()
     username = getpass.getuser()
-    upload_df.to_excel("C:\\Users\\{}\\Desktop\\final.xls".format(username), index=False)
+    upload_df.to_excel("C:\\Users\\{}\\Desktop\\FOUNT_upload.xls".format(username), index=False)
+    os.remove('config.json')
     os.remove('unpaywall_cache')
     os.remove('dump.json')
     shutil.rmtree('data')
     shutil.rmtree('logs')
-    print("Program completed successfully.\nThe data is on your desktop as a file called 'final.xls'.")
+    print("Program completed successfully.\nThe data is on your desktop as a file called 'FOUNT_upload.xls'.")
 
 affiliation = ""
 scopus_search(get_credentials(),affiliation)
