@@ -16,8 +16,8 @@ import openpyxl
 from unpywall.utils import UnpywallCredentials
 import crossref_commons.retrieval
 from ast import literal_eval
-from pybliometrics.scopus import AbstractRetrieval
-import pybliometrics
+# from pybliometrics.scopus import AbstractRetrieval
+# import pybliometrics
 warnings.simplefilter('ignore')
 def get_credentials(): #A function to get the necessary credentials to run the APIs
     #These lines are to get the necessary information from the user
@@ -98,7 +98,7 @@ def clean_affiliations(authors_df, affiliation): #This function cleans the affil
             affiliation_string = ""
             if (isinstance(affiliation_list, list)):
                 for x in affiliation_list:
-                    if (len(x) > 0):
+                    if (len(x) > 0 and "name" in x):
                         affiliation_string += x['name'] + ','
                 affiliation_string = affiliation_string[:len(affiliation_string) - 1]
                 row['Affiliation_{}'.format(j)] = affiliation_string
@@ -232,7 +232,7 @@ def populate_upload_df(scopus_df, unpaywall_df, authors_df): #This function crea
 def clean_files(upload_df):
     logging.shutdown()
     username = getpass.getuser()
-    upload_df.to_excel("C:\\Users\\{}\\Desktop\\FOUNT_upload.xls".format(username), index=False)
+    upload_df.to_excel("C:\\Users\\{}\\Desktop\\FOUNT_upload.xlsx".format(username), index=False)
     os.remove('config.json')
     os.remove('unpaywall_cache')
     os.remove('dump.json')
